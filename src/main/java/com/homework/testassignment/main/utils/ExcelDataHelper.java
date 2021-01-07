@@ -9,20 +9,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class ExcelDataHelper {
     private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-
-    private int computeRange(String range) {
-        if (!Utils.isNullOrEmpty(range)) {
-            return Constants.ASCII - range.charAt(0);
-        }
-        return 0;
-    }
 
     private static BookingTransaction getBookingTransaction(Iterator<Cell> rowCells) {
         BookingTransaction bookingTransaction = new BookingTransaction();
@@ -34,7 +26,7 @@ public class ExcelDataHelper {
                     bookingTransaction.setCustomerName(cell.getStringCellValue());
                     break;
                 case 1:
-                    bookingTransaction.setBookingDate(cell.getLocalDateTimeCellValue().toString());
+                    bookingTransaction.setBookingDate(Utils.formatDate(cell.getLocalDateTimeCellValue()));
                     break;
                 case 2:
                     bookingTransaction.setOpportunityID(cell.getStringCellValue());
@@ -78,12 +70,16 @@ public class ExcelDataHelper {
         int rowNo = 0;
         while (rows.hasNext()) {
             Row currentRow = rows.next();
-            if (rowNo < Character.getNumericValue(dataRange[0].charAt(1))) {
+            if (rowNo < Integer.parseInt(dataRange[0].substring(1))) {
                 rowNo++;
                 continue;
             }
+            if (rowNo > Integer.parseInt(dataRange[1].substring(1))) {
+                break;
+            }
             Iterator<Cell> rowCells = currentRow.iterator();
             bookingTransactions.add(getBookingTransaction(rowCells));
+            rowNo++;
         }
         return bookingTransactions;
     }

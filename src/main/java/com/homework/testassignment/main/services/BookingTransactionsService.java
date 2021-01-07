@@ -38,15 +38,15 @@ public class BookingTransactionsService {
 
     private Predicate<BookingTransaction> filterByStartDate(String startDate) {
         LocalDateTime filterDate = Utils.computeRequestDate(startDate);
-        Predicate<BookingTransaction> filter = b -> (Utils.computeDBDate(b.getBookingDate()).isAfter(filterDate)
-                || filterDate.isEqual(Utils.computeDBDate(b.getBookingDate())));
+        Predicate<BookingTransaction> filter = b -> (Utils.computeRequestDate(b.getBookingDate()).isAfter(filterDate)
+                || filterDate.isEqual(Utils.computeRequestDate(b.getBookingDate())));
         return filter;
     }
 
     private Predicate<BookingTransaction> filterByEndDate(String endDate) {
         LocalDateTime filterDate = Utils.computeRequestDate(endDate);
-        Predicate<BookingTransaction> filter = b -> (Utils.computeDBDate(b.getBookingDate()).isBefore(filterDate)
-                || filterDate.isEqual(Utils.computeDBDate(b.getBookingDate())));
+        Predicate<BookingTransaction> filter = b -> (Utils.computeRequestDate(b.getBookingDate()).isBefore(filterDate)
+                || filterDate.isEqual(Utils.computeRequestDate(b.getBookingDate())));
         return filter;
     }
 

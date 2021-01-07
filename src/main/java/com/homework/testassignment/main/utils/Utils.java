@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Utils {
+    public static final String DATE_FORMAT = "M/d/yyyy";
 
     public static LocalDateTime computeRequestDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDate localDate = LocalDate.parse(date, formatter);
         return localDate.atStartOfDay();
     }
 
-    public static LocalDateTime computeDBDate(String date) {
-        LocalDateTime dateTime = LocalDateTime.parse(date);
-        return dateTime;
+    public static String formatDate(LocalDateTime date) {
+        return DateTimeFormatter.ofPattern(DATE_FORMAT).format(date);
     }
 
     public static boolean isRenewable(String renewable) {

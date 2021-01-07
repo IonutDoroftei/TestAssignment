@@ -39,7 +39,7 @@ public class BasicController {
                 fileInfoService.saveFileMetadata(multipartFile);
                 return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully!");
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("File upload fails :" + e.getMessage());
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("File upload fails please check again sheet name or data range.");
             }
         else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong file format!");
