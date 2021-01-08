@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -35,7 +37,14 @@ public class BookingControllerTests {
         bookings.add(booking);
         doReturn(bookings).when(bookingService).getAllBookings(Optional.of(booking.getTeam()), Optional.of(booking.getProduct()), Optional.of(booking.getBookingType()),
                 Optional.of("1/30/2018"), Optional.of("12/12/2018"));
-        mockMvc.perform(get("/booking/opportunity/"))
+        mockMvc.perform(get("/booking/opportunity"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testUploadWrongFileFormat() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "hello.txt", MediaType.TEXT_PLAIN_VALUE, "Hello World!".getBytes());
+        mockMvc.perform(multipart("/booking/upload").file(file).param("sheet", "Sheet").param("range", "B3:K20"))
+                .andExpect(status().isBadRequest());
     }
 }

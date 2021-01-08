@@ -1,4 +1,10 @@
-language: java 11
+Description:
+    The project gives the possibility to upload a xlsx file and save the data to the database, and allow to get the saved data filtered by team, product, booking  type etc. .
+Technologies:
+    - Spring Boot 2.4.1
+    - Java 11
+    - H2 database
+Requirements:
 XLSX Import
 
 Create Spring boot based app with the following API endpoints.

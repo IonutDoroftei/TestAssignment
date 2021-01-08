@@ -41,7 +41,7 @@ public class BookingServiceTests {
     }
 
     @Test
-    public void whenGetAllBookings_thenBookingShouldBeFound() {
+    public void testGetAllBookings() {
         Booking booking = getBookingMock();
         List<Booking> savedBookings = bookingService.getAllBookings(Optional.of(booking.getTeam()), Optional.of(booking.getProduct()), Optional.of(booking.getBookingType()),
                 Optional.of("1/30/2018"), Optional.of("12/12/2018"));

@@ -19,7 +19,7 @@ public class BookingRepositoryTests {
     private BookingRepository bookingRepo;
 
     @Test
-    public void whenFindByOpportunityId_thenFindBooking() {
+    public void testFindByOpportunity() {
         Booking booking = BookingServiceTests.getBookingMock();
         entityManager.persistAndFlush(booking);
         Optional<Booking> searchedBooking = bookingRepo.findByOpportunityID(booking.getOpportunityID());
