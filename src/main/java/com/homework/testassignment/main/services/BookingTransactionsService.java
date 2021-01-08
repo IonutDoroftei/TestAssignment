@@ -37,7 +37,8 @@ public class BookingTransactionsService {
         BookingSpecification teamSpec = new BookingSpecification(new SearchCriteria(team.orElse(""), "team", team.isPresent()));
         BookingSpecification productSpec = new BookingSpecification(new SearchCriteria(product.orElse(""), "product", product.isPresent()));
         BookingSpecification bookingTypeSpec = new BookingSpecification(new SearchCriteria(bookingType.orElse(""), "bookingType", bookingType.isPresent()));
-        BookingSpecification dateSpec = new BookingSpecification(new SearchCriteria(startDate.orElse(""), endDate.orElse(""), "bookingDate", startDate.isPresent(), true));
-        return bookingTransactionRepo.findAll(Specification.where(teamSpec).and(productSpec).and(bookingTypeSpec).and(dateSpec));
+        BookingSpecification betweenDateSpec = new BookingSpecification(new SearchCriteria(startDate.orElse(""), endDate.orElse(""), "bookingDate",
+                startDate.isPresent() && endDate.isPresent(), true));
+        return bookingTransactionRepo.findAll(Specification.where(teamSpec).and(productSpec).and(bookingTypeSpec).and(betweenDateSpec));
     }
 }

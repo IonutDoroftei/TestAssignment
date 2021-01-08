@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "bdca1337-d793-4e4a-8782-016ea0d4f290",
+		"name": "TestAssignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Uploadxlxs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/IonutDoroftei/Downloads/MOCK_DATA_47.xlsx"
+						},
+						{
+							"key": "sheet",
+							"value": "MOCK_DATA_47",
+							"type": "text"
+						},
+						{
+							"key": "range",
+							"value": "B3:K50",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/upload?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"upload"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

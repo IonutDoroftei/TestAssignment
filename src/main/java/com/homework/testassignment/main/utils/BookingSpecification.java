@@ -8,7 +8,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-
 public class BookingSpecification implements Specification<Booking> {
     private SearchCriteria criteria;
 
@@ -20,7 +19,8 @@ public class BookingSpecification implements Specification<Booking> {
     public Predicate toPredicate(Root<Booking> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
         if (criteria.isApplyFilter())
             if (criteria.isDateCriteria()) {
-                return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), Utils.computeRequestDate(criteria.getFirstValue().toString()));
+                return builder.between(root.get(criteria.getKey()), Utils.computeRequestDate(criteria.getFirstValue().toString()),
+                        Utils.computeRequestDate(criteria.getSecondValue().toString()));
             } else
                 return builder.equal(root.<String>get(criteria.getKey()), criteria.getFirstValue().toString());
         return null;
