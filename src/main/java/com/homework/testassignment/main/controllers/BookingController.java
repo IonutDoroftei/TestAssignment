@@ -1,6 +1,6 @@
 package com.homework.testassignment.main.controllers;
 
-import com.homework.testassignment.main.models.BookingTransaction;
+import com.homework.testassignment.main.models.Booking;
 import com.homework.testassignment.main.services.BookingTransactionsService;
 import com.homework.testassignment.main.services.FileInfoService;
 import com.homework.testassignment.main.utils.ExcelDataHelper;
@@ -14,18 +14,19 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class BasicController {
+@RequestMapping("/booking")
+public class BookingController {
     @Autowired
     private BookingTransactionsService bookingTransactionService;
     @Autowired
     private FileInfoService fileInfoService;
 
-    @GetMapping("/get")
-    public ResponseEntity<List<BookingTransaction>> loadOpportunity(@RequestParam Optional<String> team,
-                                                                    @RequestParam Optional<String> product,
-                                                                    @RequestParam Optional<String> bookingType,
-                                                                    @RequestParam Optional<String> startDate,
-                                                                    @RequestParam Optional<String> endDate) {
+    @GetMapping("/opportunity")
+    public ResponseEntity<List<Booking>> loadOpportunity(@RequestParam Optional<String> team,
+                                                         @RequestParam Optional<String> product,
+                                                         @RequestParam Optional<String> bookingType,
+                                                         @RequestParam Optional<String> startDate,
+                                                         @RequestParam Optional<String> endDate) {
         return ResponseEntity.status(HttpStatus.OK).body(bookingTransactionService.getAllServices(team, product, bookingType, startDate, endDate));
     }
 

@@ -1,6 +1,6 @@
 package com.homework.testassignment.main.utils;
 
-import com.homework.testassignment.main.models.BookingTransaction;
+import com.homework.testassignment.main.models.Booking;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -16,75 +16,44 @@ import java.util.List;
 public class ExcelDataHelper {
     private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-    private static BookingTransaction getBookingTransaction(Iterator<Cell> rowCells) {
-        BookingTransaction bookingTransaction = new BookingTransaction();
-        int index = 0;
-        while (rowCells.hasNext()) {
-            Cell cell = rowCells.next();
-            switch (index) {
-                case 0:
-                    bookingTransaction.setCustomerName(cell.getStringCellValue());
-                    break;
-                case 1:
-                    bookingTransaction.setBookingDate(Utils.formatDate(cell.getLocalDateTimeCellValue()));
-                    break;
-                case 2:
-                    bookingTransaction.setOpportunityID(cell.getStringCellValue());
-                    break;
-                case 3:
-                    bookingTransaction.setBookingType(cell.getStringCellValue());
-                    break;
-                case 4:
-                    bookingTransaction.setTotal(cell.getNumericCellValue());
-                    break;
-                case 5:
-                    bookingTransaction.setAccountExecutive(cell.getStringCellValue());
-                    break;
-                case 6:
-                    bookingTransaction.setSalesOrganization(cell.getStringCellValue());
-                    break;
-                case 7:
-                    bookingTransaction.setTeam(cell.getStringCellValue());
-                    break;
-                case 8:
-                    bookingTransaction.setProduct(cell.getStringCellValue());
-                    break;
-                case 9:
-                    bookingTransaction.setRenewable(Utils.isRenewable(cell.getStringCellValue()));
-                    break;
-                default:
-                    break;
-            }
-            index++;
-        }
-        return bookingTransaction;
-    }
-
-    public static List<BookingTransaction> excelToBookingTransactions(MultipartFile multipartFile, String sheet, String range) throws IOException {
-        List<BookingTransaction> bookingTransactions = new ArrayList<>();
+    public static List<Booking> excelToBookingTransactions(MultipartFile multipartFile, String sheet, String range) throws IOException {
+        List<Booking> bookings = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
         Sheet workSheet = workbook.getSheet(sheet);
         Iterator<Row> rows = workSheet.iterator();
-        String[] dataRange = range.split(":");
+        String[] dataSheetRange = range.split(":");
 
         int rowNo = 0;
-        while (rows.hasNext()) {
+        while (rows.hasNext() && rowNo < Integer.parseInt(dataSheetRange[1].substring(1))) {
             Row currentRow = rows.next();
-            if (rowNo < Integer.parseInt(dataRange[0].substring(1))) {
+            if (rowNo < Integer.parseInt(dataSheetRange[0].substring(1))) {
                 rowNo++;
                 continue;
             }
-            if (rowNo > Integer.parseInt(dataRange[1].substring(1))) {
-                break;
-            }
-            Iterator<Cell> rowCells = currentRow.iterator();
-            bookingTransactions.add(getBookingTransaction(rowCells));
+            bookings.add(getBookingTransaction(currentRow.iterator()));
             rowNo++;
         }
-        return bookingTransactions;
+        return bookings;
     }
 
     public static boolean hasExcelFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
+    }
+
+    private static Booking getBookingTransaction(Iterator<Cell> rowCells) {
+        List<Cell> cells = new ArrayList<>();
+        rowCells.forEachRemaining(cells::add);
+        Booking booking = new Booking();
+        booking.setCustomerName(cells.get(0).getStringCellValue());
+        booking.setBookingDate(Utils.formatDate(cells.get(1).getLocalDateTimeCellValue()));
+        booking.setOpportunityID(cells.get(2).getStringCellValue());
+        booking.setBookingType(cells.get(3).getStringCellValue());
+        booking.setTotal(cells.get(4).getNumericCellValue());
+        booking.setAccountExecutive(cells.get(5).getStringCellValue());
+        booking.setSalesOrganization(cells.get(6).getStringCellValue());
+        booking.setTeam(cells.get(7).getStringCellValue());
+        booking.setProduct(cells.get(8).getStringCellValue());
+        booking.setRenewable(Utils.isRenewable(cells.get(9).getStringCellValue()));
+        return booking;
     }
 }

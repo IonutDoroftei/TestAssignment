@@ -16,6 +16,7 @@ public class FileInfoService {
         info.setName(file.getOriginalFilename());
         info.setSize(file.getSize() + "KB");
         info.setUploadDate(String.valueOf(System.currentTimeMillis()));
+        //Unable to get creation date
         info.setCreationDate("Unknown");
         fileInfoRepo.save(info);
     }
