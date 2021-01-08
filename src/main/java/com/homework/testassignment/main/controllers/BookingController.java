@@ -1,7 +1,7 @@
 package com.homework.testassignment.main.controllers;
 
 import com.homework.testassignment.main.models.Booking;
-import com.homework.testassignment.main.services.BookingTransactionsService;
+import com.homework.testassignment.main.services.BookingService;
 import com.homework.testassignment.main.services.FileInfoService;
 import com.homework.testassignment.main.utils.ExcelDataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequestMapping("/booking")
 public class BookingController {
     @Autowired
-    private BookingTransactionsService bookingTransactionService;
+    private BookingService bookingTransactionService;
     @Autowired
     private FileInfoService fileInfoService;
 
@@ -27,7 +27,7 @@ public class BookingController {
                                                          @RequestParam Optional<String> bookingType,
                                                          @RequestParam Optional<String> startDate,
                                                          @RequestParam Optional<String> endDate) {
-        return ResponseEntity.status(HttpStatus.OK).body(bookingTransactionService.getAllServices(team, product, bookingType, startDate, endDate));
+        return ResponseEntity.status(HttpStatus.OK).body(bookingTransactionService.getAllBookings(team, product, bookingType, startDate, endDate));
     }
 
     @PostMapping("/upload")
@@ -40,7 +40,7 @@ public class BookingController {
                 fileInfoService.saveFileMetadata(multipartFile);
                 return ResponseEntity.status(HttpStatus.OK).body("File uploaded successfully!");
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("File upload fails please check again sheet name or data range.");
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("File upload fails !");
             }
         else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong file format!");

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface BookingTransactionRepository extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
+public interface BookingRepository extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
     Optional<Booking> findByOpportunityID(String opportunityID);
 }
